@@ -1,28 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-app
+  name: calculator
   labels:
-    app: python-app
+    app: calculator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: python-app
+      app: calculator
   template:
     metadata:
       labels:
-        app: python-app
+        app: calculator
     spec:
       containers:
-        - name: python-app
-          image: karash121/calculator:latest  # ← change this
-          imagePullPolicy: Never 
+        - name: calculator
+          image: karash121/calculator:latest
+          imagePullPolicy: Never
           ports:
-            - containerPort: 8000
-          env:
-            - name: ENV
-              value: "production"
+            - containerPort: 5000       # ✅ correct port
           resources:
             requests:
               cpu: "100m"
@@ -32,13 +29,13 @@ spec:
               memory: "256Mi"
           readinessProbe:
             httpGet:
-              path: /health      # ← change to your health endpoint
-              port: 8000
+              path: /                   # ✅ use / instead of /health
+              port: 5000
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /health
-              port: 8000
+              path: /                   # ✅ use / instead of /health
+              port: 5000
             initialDelaySeconds: 15
             periodSeconds: 20
