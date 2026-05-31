@@ -17,6 +17,7 @@ spec:
       containers:
         - name: python-app
           image: your-dockerhub-username/your-image-name:latest  # ← change this
+          imagePullPolicy: Never 
           ports:
             - containerPort: 8000
           env:
